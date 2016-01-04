@@ -159,7 +159,7 @@ a:focus {
     padding: 100px 0;
     text-align: center;
     color: #fff;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1)), url(../img/intro-bg.jpg) no-repeat bottom center scroll;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1)), url(//m103.nthu.edu.tw/~s103062702/img/intro-bg.jpg) no-repeat bottom center scroll;
     background-color: #000;
     background-size: cover;
     -o-background-size: cover;
@@ -198,19 +198,19 @@ a:focus {
 }
 
 #race-game {
-    background-image: linear-gradient(rgba(0, 0, 0, 1),rgba(0, 0, 0, 0.8)10%, rgba(0, 0, 0, 0.7)90%, rgba(0, 0, 0,1)), url(../img/race-bg.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 1),rgba(0, 0, 0, 0.8)10%, rgba(0, 0, 0, 0.7)90%, rgba(0, 0, 0,1)), url(//m103.nthu.edu.tw/~s103062702/img/race-bg.jpg);
 }
 
 #maze-game {
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.9)20%, rgba(0, 0, 0, 0.7)90%, rgba(0, 0, 0, 1)), url(../img/maze-bg.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.9)20%, rgba(0, 0, 0, 0.7)90%, rgba(0, 0, 0, 1)), url(//m103.nthu.edu.tw/~s103062702/img/maze-bg.jpg);
 }
 
 #fill-game {
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8)10%, rgba(0, 0, 0, 0.9)50%, rgba(0, 0, 0, 0.8)90%, rgba(0, 0, 0, 1)), url(../img/fill-bg.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8)10%, rgba(0, 0, 0, 0.9)50%, rgba(0, 0, 0, 0.8)90%, rgba(0, 0, 0, 1)), url(//m103.nthu.edu.tw/~s103062702/img/fill-bg.jpg);
 }
 
 #contact {
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7)), url(../img/contact-bg.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7)), url(//m103.nthu.edu.tw/~s103062702/img/contact-bg.jpg);
 }
 
 @media(min-width:768px) {
