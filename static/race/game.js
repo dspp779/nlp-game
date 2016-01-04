@@ -1,6 +1,6 @@
 var game;
 
-questions = [{
+var questions = [{
     'question': 'However, my class and I have seen an advertisement _ a fashion and leisure show.',
     'options': ['about', 'of', 'on', 'for'],
     'answer': 'for'
@@ -27,7 +27,7 @@ var targetGroup;
 var obstacleSpeed = 150;
 var obstacleDelay = 1400;
 
-function init() {
+function initRace() {
     user_score = 0;
     user_life = 3;
     current_question_index = -1;
@@ -49,9 +49,9 @@ function refreshInfo() {
 
 function next_question() {
     current_question_index = (current_question_index+1) % questions.length;
-    question = questions[current_question_index];
+    var question = questions[current_question_index];
     $('p.question').html(question.question.replace('_', '<select disabled></select>'));
-    anwser_option = rand(2);
+    var anwser_option = rand(2);
     $('.option:eq('+anwser_option+')').find('span').text(question.answer);
     $('.option:eq('+(1-anwser_option)+')').find('span').text(randOption(question));
 }
@@ -61,35 +61,35 @@ function rand(n) {
 }
 
 function randOption(question) {
-    do {
-        t = question.options[rand(question.options.length)]
-    } while (t == question.answer);
+    var t = question.options[rand(question.options.length)]
+    while (t == question.answer)
+        t = question.options[rand(question.options.length)];
     return t;
 }
 
 function select(n) {
-    user_answer = $('.option:eq('+n+')').find('span').text();
-    question = questions[current_question_index];
+    var user_answer = $('.option:eq('+n+')').find('span').text();
+    var question = questions[current_question_index];
     
     if(user_answer == question.answer) {
         user_score++;
         next_question();
     } else {
         user_life--;
+        $('.option:eq('+~n+')').find('span').css('color', 'red');
     }
     refreshInfo();
     // end game
     if(user_life <= 0) {
         game.state.destroy();
         $('.life > span').css('color', 'grey');
-        $('.option:eq('+~n+')').find('span').css('color', 'red');
         $('#gameover').slideDown(500);
     }
 }
 
 
 window.onload = function() {	
-    init();
+    initRace();
 }
 
 var playGame = function(game){};
@@ -207,7 +207,7 @@ Obstacle.prototype.constructor = Obstacle;
 
 Obstacle.prototype.update = function() {
 	this.body.velocity.y = obstacleSpeed;
-	if(this.y > game.height){
+	if(this.y > game.height + this.height){
 		this.destroy();
 	}
 };
@@ -225,7 +225,7 @@ Target.prototype.constructor = Target;
 
 Target.prototype.update = function() {
 	this.body.velocity.y = obstacleSpeed;
-	if(this.y > game.height - this.height / 2){
+	if(this.y > game.height + this.height){
         this.destroy();
 	}
 };
