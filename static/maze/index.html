@@ -27,7 +27,6 @@
 <body style="margin:0">
 
     <div id="maze-game-area">
-        <p class="question"></p>
         <div class="table-section">
             <img src="" alt="Maze" height="400" width="480" />
             <div class="options">
@@ -49,6 +48,7 @@
                 </button>
             </div>
         </div>
+        <p class="question"></p>
     </div>
 
     <!-- jQuery -->
@@ -85,7 +85,9 @@
                 $('div#maze-game-area').focus().slideDown(500);
             }
         }
+        
         toggle_maze();
+        
         $('body').keydown(function(e) {
             if ( e.which == 13 ) {
                 e.preventDefault();
@@ -113,14 +115,19 @@
                     user_anwsers.push($(this).find('button.maze-'+last_move).blur().find('span').text());
                 }
                 
-                if(user_anwsers.length >= 3) {
-                    maze_result(user_anwsers);
+                if(user_anwsers.length == 3) {
+                    maze_result();
+                } else if(user_anwsers.length > 3) {
+                    user_anwsers = [];
+                    next_maze(undefined);
                 } else {
+                    // set new question
                     next_question = questions[user_anwsers.length];
                     $(this).children('p.question').html(next_question.question.replace('_', '<select disabled></select>'));
-                    $(this).find('button').each(function( index ) {
-                        $(this).find('span').text(next_question.options[index]);
-                    });
+                    opts = rand_options(next_question.options);
+                    $(this).find('div.options').find('button').each(function( index ) {
+                        $(this).find('span').text(opts[index]);
+                    }).end().show();
                     
                     $(this).find('button').prop( "disabled", false);
                         // .filter('.maze-'+last_move).prop( "disabled", true).find('span').text('');
@@ -130,20 +137,23 @@
             });
         }
 
-        function maze_result(user_anwsers) {
-            // disable buttons and clear the content
-            $('div#maze-game-area').find('div.options').html('');
-            
+        function maze_result() {
             // compute score
             var score = 0;
             for(var index in user_anwsers)
                 if(questions[index].answer == user_anwsers[index]) score++;
-            user_anwsers = []
 
-            // display result
-            // comment
-            $('div#maze-game-area > p.question').html(comments[score]);
+            // disable buttons and clear the content
+            $('div#maze-game-area').find('div.options').hide();
+            // display result and comment
+            $('div#maze-game-area > p.question').text(comments[score]);
             $('div#maze-game-area').find('img').attr('src', '/static/maze/img/score-'+score+'.jpg');
+        }
+        function random_sort(a, b) {
+            return Math.random() - 0.5;
+        }
+        function rand_options(options) {
+            return options.slice().sort(random_sort);
         }
     </script>
 
