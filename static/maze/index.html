@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Maze</title>
+
+    <!-- Bootstrap Core CSS -->
+    <!--<link href="css/bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+    crossorigin="anonymous">
+
+    <link href="./index.css" rel="stylesheet">
+    
+    <!-- Custom Fonts -->
+    <!--<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+</head>
+
+<body style="margin:0">
+
+    <div id="maze-game-area">
+        <p class="question"></p>
+        <div class="table-section">
+            <img src="" alt="Maze" height="400" width="480" />
+            <div class="options">
+                <button type="button" class="btn btn-success maze-left" onclick="javascript:next_maze('left');">
+                    <i class="fa fa-arrow-left "></i>
+                    <span></span>
+                </button>
+                <button type="button" class="btn btn-success maze-up" onclick="javascript:next_maze('up');">
+                    <i class="fa fa-arrow-up "></i>
+                    <span></span>
+                </button>
+                <button type="button" class="btn btn-success maze-right" onclick="javascript:next_maze('right');">
+                    <i class="fa fa-arrow-right "></i>
+                    <span></span>
+                </button>
+                <button type="button" class="btn btn-success maze-down" onclick="javascript:next_maze('down');">
+                    <i class="fa fa-arrow-down "></i>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <!--<script src="js/jquery.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <!--<script src="js/bootstrap.min.js"></script>-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+    crossorigin="anonymous"></script>
+    
+    <script type="text/javascript">
+        questions = [{
+            'question': 'However, my class and I have seen an advertisement _ a fashion and leisure show.',
+            'options': ['about', 'of', 'on', 'for'],
+            'answer': 'for'
+        }, {'question': 'Nowadays the main attraction in the newspapers and _ television is the private lives of famous people.',
+            'options': ['on', 'to', 'of', 'for'],
+            'answer': 'on'
+        }, {'question': 'At the end we could have a comment _ each student in our class.',
+            'options': ['in', 'of', 'to', 'from'],
+            'answer': 'from'
+        }];
+        user_anwsers = [];
+        comments = ['拜託，連我阿嬤都比你厲害', '加油，好嗎？(1/3)', '你還有得學呢！(2/3)', '太神啦！'];
+
+        function toggle_maze() {
+            if($('div#maze-game-area').is(":visible")) {
+                $('div#maze-game-area').slideUp(500);
+            } else {
+                user_anwsers = []
+                next_maze();
+                $('div#maze-game-area').focus().slideDown(500);
+            }
+        }
+        toggle_maze();
+        $('body').keydown(function(e) {
+            if ( e.which == 13 ) {
+                e.preventDefault();
+            }
+            switch(e.keyCode) {
+                case 37:
+                    next_maze('left')
+                    break;
+                case 39:
+                    next_maze('right')
+                    break;
+                case 38:
+                    next_maze('up')
+                    break;
+                case 40:
+                    next_maze('down')
+                    break;
+                default: break;
+            }
+        });
+
+        function next_maze(last_move) {
+            $('div#maze-game-area').fadeOut(500, function(){
+                if(last_move) {
+                    user_anwsers.push($(this).find('button.maze-'+last_move).blur().find('span').text());
+                }
+                
+                if(user_anwsers.length >= 3) {
+                    maze_result(user_anwsers);
+                } else {
+                    next_question = questions[user_anwsers.length];
+                    $(this).children('p.question').html(next_question.question.replace('_', '<select disabled></select>'));
+                    $(this).find('button').each(function( index ) {
+                        $(this).find('span').text(next_question.options[index]);
+                    });
+                    
+                    $(this).find('button').prop( "disabled", false);
+                        // .filter('.maze-'+last_move).prop( "disabled", true).find('span').text('');
+                    $(this).find('img').attr('src', '/static/maze/img/'+last_move+'.png');
+                }
+                if(last_move) $(this).fadeIn(500);
+            });
+        }
+
+        function maze_result(user_anwsers) {
+            // disable buttons and clear the content
+            $('div#maze-game-area').find('div.options').html('');
+            
+            // compute score
+            var score = 0;
+            for(var index in user_anwsers)
+                if(questions[index].answer == user_anwsers[index]) score++;
+            user_anwsers = []
+
+            // display result
+            // comment
+            $('div#maze-game-area > p.question').html(comments[score]);
+            $('div#maze-game-area').find('img').attr('src', '/static/maze/img/score-'+score+'.jpg');
+        }
+    </script>
+
+</body>
+
+</html>

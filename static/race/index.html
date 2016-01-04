@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style type="text/css">
+        body {
+            background: transparent;
+            padding: 0px;
+            margin: 0px;
+            overflow: hidden;
+            width: 600px;
+            font-family: Helvetica;
+        }
+        h1 {
+            padding: 20px;
+            background: #DDDDDD;
+            margin-bottom: 0px;
+        }
+        .info-area {
+            position: absolute;
+            left: 320px;
+            height: 480px;
+            width: 280px;
+            background-color: #EEEEEE;
+        }
+        .score {
+            height: 60px;
+        }
+        .question {
+            padding: 0 10px;
+        }
+        .option, .score {
+            position: relative;
+            padding: 10px;
+        }
+        .option span, .score div {
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+            padding: 3px 20px;
+        }
+        .correct {
+            left: 0px;
+            font-size: 24px;
+        }
+        .life {
+            right: 0px;
+            font-size: 28px;
+            transition: all 0.2s ease-in-out;
+            -o-transition: all 0.2s ease-in-out;
+            -ms-transition: all 0.2s ease-in-out;
+            -moz-transition: all 0.2s ease-in-out;
+            -webkit-transition: all 0.2s 
+        }
+        .red {
+            color: red;
+        }
+        #gameover {
+            display: none;
+            position: absolute;
+            top: 240px;
+            transform: translate(0, -50%);
+            width: 320px;
+            text-align: center;
+            font-size: 48px;
+            color: yellow;
+        }
+    </style>
+
+    <!-- Custom CSS -->
+    <!--<link href="index.css" rel="stylesheet">-->
+
+    <!-- jQuery -->
+    <!--<script src="js/jquery.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <script src="phaser.min.js"></script>
+    <script src="game.js"></script>
+</head>
+
+<body>
+    <div class="info-area">
+        <h1>障礙賽車</h1>
+        <div class="score">
+            <div class="correct">123</div>
+            <div class="life"><span>♥</span><span>♥</span><span>♥</span></div>
+        </div>
+        <p class="question">question</p>
+        <div class="option">
+            <img src='target.png' alt="option1" />
+            <span>option1</span>
+        </div>
+        <div class="option">
+            <img src='obstacle.png' alt="option2" />
+            <span>option2</span>
+        </div>
+    </div>
+    <div id='gameover'>GAMEOVER</div>
+</body>
+
+</html>
