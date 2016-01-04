@@ -59,7 +59,7 @@ docs/_build/
 target/
 
 # ignore static files
-*.jpg
-*.png
-*.wav
+#*.jpg
+#*.png
+#*.wav
 
