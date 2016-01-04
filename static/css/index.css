@@ -441,3 +441,7 @@ div#maze-game-area iframe {
 .exit-hint {
     color: silver;
 }
+
+.modal:visible body {
+    /*overflow-y: hidden;*/
+}
