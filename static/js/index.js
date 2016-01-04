@@ -55,6 +55,10 @@ function start_race() {
     setModal('<iframe src="/static/race/index.html" style="height:480px;width:600px;"></iframe>');
 }
 
+function start_fill() {
+    setModal('<iframe src="/static/trick3/index.html" style="height:600px;width:800px;"></iframe>');
+}
+
 function setModal(content) {
     $('div#myModal').html(content+'<h6 class="exit-hint">按下其他地方離開遊戲</h6>');
 }
