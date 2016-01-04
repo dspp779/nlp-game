@@ -62,4 +62,4 @@ target/
 #*.jpg
 #*.png
 #*.wav
-
+.DS_Store
