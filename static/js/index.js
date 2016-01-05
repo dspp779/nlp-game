@@ -56,9 +56,14 @@ function start_race() {
 }
 
 function start_fill() {
-    setModal('<iframe src="/static/trick3/index.html" style="height:600px;width:804px;"></iframe>');
+    setModal('<iframe src="/static/trick3/index.html" style="height:600px;width:800px;"></iframe>');
 }
 
 function setModal(content) {
     $('div#myModal').html(content+'<h6 class="exit-hint">按下其他地方離開遊戲</h6>');
+    setTimeout(setFocusIframe, 100);
+}
+
+function setFocusIframe() {
+    $('div#myModal').children('iframe').contentWindow.focus();
 }

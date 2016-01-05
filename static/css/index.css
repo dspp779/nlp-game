@@ -435,7 +435,7 @@ div#maze-game-area iframe {
 }
 
 #myModal iframe {
-    border: black 2px solid;
+    border-width: 0;
 }
 
 .exit-hint {
@@ -443,5 +443,5 @@ div#maze-game-area iframe {
 }
 
 .modal:visible body {
-    /*overflow-y: hidden;*/
+    overflow-y: hidden;
 }

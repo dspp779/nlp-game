@@ -54,6 +54,7 @@ function next_question() {
     var anwser_option = rand(2);
     $('.option:eq('+anwser_option+')').find('span').text(question.answer);
     $('.option:eq('+(1-anwser_option)+')').find('span').text(randOption(question));
+    $('.option').find('span').css('color', 'black');
 }
 
 function rand(n) {
