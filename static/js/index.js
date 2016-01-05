@@ -43,10 +43,6 @@ $('.navbar-collapse ul li a').click(function() {
     $('.navbar-toggle:visible').click();
 });
 
-function init() {
-    
-}
-
 function start_maze() {
     setModal('<iframe src="/static/maze/index.html" style="height:500px;width:480px;"></iframe>');
 }
@@ -56,7 +52,7 @@ function start_race() {
 }
 
 function start_fill() {
-    setModal('<iframe src="/static/trick3/index.html" style="height:600px;width:800px;"></iframe>');
+    setModal('<iframe src="/static/fill.html" style="height:400px;width:500px;"></iframe>');
 }
 
 function setModal(content) {

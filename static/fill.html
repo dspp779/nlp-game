@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Game DEMO</title>
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+</head>
+
+<body onload="init();" style="margin:0;background-color:white;">
+    <canvas id="demoCanvas" width="500" height="300"></canvas>
+    <div if="info" style="width:500px;height:300px;position:absolute;top:0;left:0;">
+        <h2 id="timer" style="position:absolute;top:20px;right:20px;">0</h2>
+        <h2 id="corrected" style="position:absolute;top:20px;left:20px;">0</h2>
+    </div>
+</body>
+<script>
+    var questions = [{
+    'question': 'However, my class and I have seen an advertisement _ a fashion and leisure show.',
+    'options': ['about', 'of', 'on', 'for'],
+    'answer': 'for'
+}, {'question': 'Nowadays the main attraction in the newspapers and _ television is the private lives of famous people.',
+    'options': ['on', 'to', 'of', 'for'],
+    'answer': 'on'
+}, {'question': 'At the end we could have a comment _ each student in our class.',
+    'options': ['in', 'of', 'to', 'from'],
+    'answer': 'from'
+}];
+
+var user_score;
+var user_life;
+var current_question_index = 0;
+var user_corrected = 0;
+var time_begin = new Date();
+    
+var key;
+var front;
+var rear;
+var ans = "abcd".split("");
+var ans_mask = [];
+var success_lock;
+
+function init_question() {
+    var question = questions[current_question_index];
+    keys = {};
+    question_body = question.question.split('_');
+    front = question_body[0];
+    rear = question_body[1];
+    ans = question.answer.split('');
+    ans_mask = [];
+    // ans_mask = Array(ans.length).join('_');
+    
+    for(var i = 0; i< ans.length; i++){
+        ans_mask[i] = "_";
+    }
+    success_lock = false;
+    console.log(ans.length);
+}
+
+function init() {
+	var stage = new createjs.Stage("demoCanvas");
+	var text = new createjs.Text(front+ans_mask.join(' ')+rear, "20px Verdana", "#ff7700");
+	text.x = 50;
+	text.y = 150;
+	text.lineWidth = (stage.canvas.width - 2*text.x);
+        
+
+ 	text.textBaseline = "alphabetic";
+	stage.addChild(text);
+	
+	var circle = new createjs.Shape();
+	circle.graphics.beginStroke("Green").setStrokeStyle(10).drawCircle(0, 0, 50);
+	circle.x = -250;
+	circle.y = 150;
+	stage.addChild(circle);	
+
+    init_question();
+
+	createjs.Ticker.addEventListener("tick", tick);
+	createjs.Ticker.setFPS(60);
+	
+	this.document.onkeydown = keydown;
+	this.document.onkeyup = keyup;
+
+	function keydown(event) {
+	    keys[event.keyCode] = true;
+	}
+	
+	function keyup(event) {
+	    delete keys[event.keyCode];
+	}
+	function success() {
+		if(!success_lock){
+            console.log("DONE");
+            user_corrected++;
+            success_lock = true;
+            circle.x = 250;
+            setTimeout(next, 1000);
+		}
+	}
+    function next() {
+        current_question_index = (current_question_index+1) % questions.length;
+        init_question();
+        circle.x = -250;
+    }
+	function tick() {
+		Object.keys(keys).map(function(value, index) {
+			input = String.fromCharCode(value).toLowerCase(); 
+			if(ans.indexOf(input) > -1){
+				console.log("HIT")
+					for(var i = 0; i < ans.length; i++){
+						if(ans[i] == input) ans_mask[i]=input;
+					}
+			}
+		});
+        
+        var time_remaining = 20 - Math.floor(parseFloat(new Date() - time_begin)/1000);
+        // refresh info
+        document.getElementById('timer').innerHTML = time_remaining >= 0 ? time_remaining:'';
+        document.getElementById('corrected').innerHTML = user_corrected;
+        
+	    text.text = front+ans_mask.join(' ')+rear;
+        
+        if (time_remaining <= 0) {
+            text.text = "time's up";
+            text.font = "bold 48px Verdana";
+            var b = text.getBounds();
+            text.x = stage.canvas.width/2 - b.width/2; 
+            text.y = stage.canvas.height/2;
+            document.getElementById('corrected').innerHTML = user_corrected+'blanks correctly filled';
+        }
+        
+	    if(ans_mask.indexOf("_") == -1){success();}
+	    stage.update();
+	}
+}
+
+</script>
+
+</html>
